@@ -38,5 +38,53 @@ class Deck:
         card_drawn = self.deck.pop()
         return card_drawn
 
+#create a class for a hand that is going to be held by the player or the computer
+class Hand:
+    #cretae a hand list that will containt the cards dealt to players
+    def __init__(self):
+        self.cards = []
+        self.value = 0
+        self.aces = 0
+    
+    #when a card added to the hand, append the list, and adjust the value of the hand
+    def add_card(self, card):
+        self.cards.append(card)
+        self.value += values[card.name]
+        if card.name == 'Ace':
+            self.aces +=1
+
+    #when value blow up, count Ace's value as 1 instead of 11
+    def ace_adjust(self, card):
+        if self.value >21 and self.aces:
+            self.value -= 10
+            self.aces -= 1
+
+#create a chip class to keep track of chips for the player and how much was bet with each round of game
+class Chips:
+    #create the total chips varaible and bet chips variable
+    def __init__(self):
+        self.total = 100
+        self.bet = 0
+    
+    # add bet chips to total when win
+    def win_bet(self):
+        self.total += self.bet
+
+    # deduct bet chips to total when lost
+    def lose_bet(self):
+        self.total -= self.bet
+
+
+
+#Test Section
+test_deck = Deck()
+test_deck.shuffle()
+
+card_dealt = test_deck.deal()
+print(card_dealt)
+test_hand = Hand()
+test_hand.add_card(card_dealt)
+print(test_hand.cards)
+
 
 
