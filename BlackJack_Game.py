@@ -54,7 +54,7 @@ class Hand:
             self.aces +=1
 
     #when value blow up, count Ace's value as 1 instead of 11
-    def ace_adjust(self, card):
+    def ace_adjust(self):
         if self.value >21 and self.aces:
             self.value -= 10
             self.aces -= 1
@@ -74,17 +74,56 @@ class Chips:
     def lose_bet(self):
         self.total -= self.bet
 
+#cretae a function to take in player's bet
+def take_bet(chips, player_name):
+    while True:
+        try:
+            chips.bet = int(input('{}, please input how many chips you would like to bet in this round? '.format(player_name)))
+        except ValueError:
+            print('You must enter an integer value!')
+        else:
+            if chips.bet > chips.total:
+                print('You can not excced the maximum chip on hand: '+ str(chips.total) +'!')
+            else:
+                break
+
+#create a function to hit a card
+
+def hit(deck, hand):
+    hand.add_card(deck.deal())
+    hand.ace_adjust()
+
+#create a function to determine whether hit or stand
+def hit_or_stand(deck, hand):
+  
+    while True:
+        h_or_s = input('Please enter h for hit and s for stand: ')
+
+        if h_or_s[0].lower() == 'h':
+            hit(deck, hand)
+
+        elif h_or_s[0].lower() == 's':
+            print("Player stands. Dealer's turn")
+                
+        else:
+            print('Please enter h or s to hit or stand.')
+            continue
+        break
+        
 
 
-#Test Section
-test_deck = Deck()
-test_deck.shuffle()
-
-card_dealt = test_deck.deal()
-print(card_dealt)
-test_hand = Hand()
-test_hand.add_card(card_dealt)
-print(test_hand.cards)
 
 
+#Body of the Game Execution
+#print('Welcome to the BlackJack Game!')
+#player_name = input('Please enter your name: ')
 
+#test_chips = Chips()
+#take_bet(test_chips, player_name)
+
+#test_deck = Deck()
+#test_deck.shuffle()
+#test_hand = Hand()
+#hit_or_stand(test_deck, test_hand)
+#print(test_hand.cards)
+#print(test_hand.value)
